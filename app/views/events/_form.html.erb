@@ -1,0 +1,49 @@
+<%= form_with(model: event, local: true) do |form| %>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>  
+      </ul>
+    </div>
+  <% end %>
+    <div class="mb-3">
+      <strong><%= form.label :title, Event.human_attribute_name("title").titleize, class:"form-label"%></strong>
+      <%= form.text_field :title, class:"form-control" %>
+    </div>
+    <div class="mb-3">
+      <strong><%= form.label :start, Event.human_attribute_name("start").titleize, class:"form-label"%></strong>
+      <%= form.text_field :start, class:"form-control flatpickr" %>
+    </div>
+    <div class="mb-3">
+      <strong><%= form.label :end, Event.human_attribute_name("end").titleize, class:"form-label"%></strong>
+      <%= form.text_field :end, class:"form-control flatpickr" %>
+    </div>
+    <div class="mb-3">
+      <strong><%= form.label :url, Event.human_attribute_name("url").titleize, class:"form-label"%></strong>
+      <%= form.text_field :url, class:"form-control" %>
+    </div>
+    <div class="mb-3">
+      <strong><%= form.label :classNames, Event.human_attribute_name("classNames").titleize, class:"form-label"%></strong>
+      <%= form.text_field :classNames, class:"form-control" %>
+    </div>
+    <div class="mb-3">
+      <strong><%= form.label :backgroundColor, Event.human_attribute_name("backgroundColor").titleize, class:"form-label"%></strong>
+      <%= form.text_field :backgroundColor, class:"form-control" %>
+    </div>
+    <div class="mb-3">
+      <strong><%= form.label :borderColor, Event.human_attribute_name("borderColor").titleize, class:"form-label"%></strong>
+      <%= form.text_field :borderColor, class:"form-control" %>
+    </div>
+    <div class="mb-3">
+      <strong><%= form.label :textColor, Event.human_attribute_name("textColor").titleize, class:"form-label"%></strong>
+      <%= form.text_field :textColor, class:"form-control" %>
+    </div>
+
+  <div class="actions">
+    <%= link_to 'Volver', :back, class: "btn btn-primary" %>
+    <%= form.submit class: "btn btn-success" %>
+<% end %>

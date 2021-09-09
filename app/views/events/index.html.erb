@@ -1,0 +1,120 @@
+<!-- Breadcrumbs-->
+<div class="p-2">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+      <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item active"><a href="<%= events_path%>"> <%= Event.model_name.human(count: 2)%></a></li>
+  </ol>
+</div>
+<div class="card mx-auto my-2">
+  <div class="card-header">
+    <i class="fa fa-table"></i>
+    <%= Event.model_name.human(count: 2).titleize%>
+  </div>
+  <div class="card-body">
+    <table class="datatable responsive nowrap table table-hover">
+      <thead>
+        <tr>
+          <th><%= Event.human_attribute_name("title").titleize%></th>
+          <th><%= Event.human_attribute_name("start").titleize%></th>
+          <th><%= Event.human_attribute_name("end").titleize%></th>
+          <th><%= Event.human_attribute_name("url").titleize%></th>
+          <th><%= Event.human_attribute_name("classNames").titleize%></th>
+          <th><%= Event.human_attribute_name("backgroundColor").titleize%></th>
+          <th><%= Event.human_attribute_name("borderColor").titleize%></th>
+          <th><%= Event.human_attribute_name("textColor").titleize%></th>
+          <th>Opciones</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+        <% @events.each do |event| %>
+          <tr>
+              <td><%=event.title%></td>
+              <td><%=event.start%></td>
+              <td><%=event.end%></td>
+              <td><%=event.url%></td>
+              <td><%=event.classNames%></td>
+              <td><%=event.backgroundColor%></td>
+              <td><%=event.borderColor%></td>
+              <td><%=event.textColor%></td>
+            <td>
+              <%= link_to((fa_icon "eye"), event) %>
+              <%= link_to((fa_icon "edit"), edit_event_path(event)) %>
+              <%= link_to((fa_icon "trash"), event, method: :delete, data: { confirm: '¿Esta seguro que desea eliminar?' }) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+<div class="actions">
+  <%= link_to 'Volver', :back, class: "btn btn-primary" %>
+  <%= link_to 'Crear ' + Event.model_name.human.titleize, new_event_path, class: 'btn btn-success' %>
+</div>
+<!-- End Scaffold -->
+
+  <div class='card mx-auto my-2'>
+    <div class='card-header'>
+      <i class='fa fa-table'></i>
+      Calendario
+    </div>
+    <div class='card-body'>
+      <div id='calendar'></div>
+    </div>
+  </div>
+  <script>
+  document.addEventListener('turbolinks:load', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new Calendar(calendarEl, {
+      plugins: [ momentPlugin, timeGridPlugin, dayGridPlugin, listPlugin ],
+      locale: esLocale,
+      themeSystem: 'bootstrap',
+      hiddenDays: [ 0, 6] ,
+      timeZone:'UTC',
+      headerToolbar:{
+        left:'prev,next,today',
+        center:'title',
+        right:'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      },
+      events: [
+        <% @events.each do |event| %>
+        {
+          allDay:false,
+          title: '<%=event.title%>',
+          url : '/events/<%=event.id%>',
+          <% if event.end.nil? %>
+          start: '<%=event.start.strftime('%Y-%m-%dT%H:%M:%S')%>'
+          <% else %>  
+          start: '<%=event.start.strftime('%Y-%m-%dT%H:%M:%S')%>', // a property!
+          end: '<%=event.end.strftime('%Y-%m-%dT%H:%M:%S')%>'
+          <% end %>
+        <% if event == @events.last %>
+        }
+        <% else %>
+        },
+        <% end %>
+        <% end %>
+        
+      ],
+      eventClick: function(info) {
+        //alert('Event: ' + info.event.id);
+        //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+        //alert('View: ' + info.view.type);
+
+        // change the border color just for fun
+        //info.el.style.borderColor = 'red';
+      }
+    });
+
+    calendar.render();
+
+
+
+  });
+  </script>

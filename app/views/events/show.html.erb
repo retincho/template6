@@ -1,0 +1,53 @@
+<div class="p-2">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+      <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="<%= events_path%>"> <%= Event.model_name.human(count: 2)%></a>
+    </li>
+    <li class="breadcrumb-item active"><%= Event.model_name.human%></li>
+  </ol>
+</div> 
+<div class="card card-register mx-auto my-2">
+  <div class="card-header"><%= @event.to_s %></div>
+  <div class="card-body">
+      <p>
+        <strong><%= Event.human_attribute_name("title").titleize%>:</strong>
+        <%= @event.title %>
+      </p>
+      <p>
+        <strong><%= Event.human_attribute_name("start").titleize%>:</strong>
+        <%= @event.start %>
+      </p>
+      <p>
+        <strong><%= Event.human_attribute_name("end").titleize%>:</strong>
+        <%= @event.end %>
+      </p>
+      <p>
+        <strong><%= Event.human_attribute_name("url").titleize%>:</strong>
+        <%= @event.url %>
+      </p>
+      <p>
+        <strong><%= Event.human_attribute_name("classNames").titleize%>:</strong>
+        <%= @event.classNames %>
+      </p>
+      <p>
+        <strong><%= Event.human_attribute_name("backgroundColor").titleize%>:</strong>
+        <%= @event.backgroundColor %>
+      </p>
+      <p>
+        <strong><%= Event.human_attribute_name("borderColor").titleize%>:</strong>
+        <%= @event.borderColor %>
+      </p>
+      <p>
+        <strong><%= Event.human_attribute_name("textColor").titleize%>:</strong>
+        <%= @event.textColor %>
+      </p>
+    <div class="actions">
+      <%= link_to 'Volver', :back, class: "btn btn-primary" %>
+      <%= link_to 'Editar Event', edit_event_path(@event), class: 'btn btn-primary' %>
+      <%= link_to 'Eliminar ' + Event.model_name.human.titleize, @event, method: :delete, data: { confirm: '¿Esta seguro que desea eliminar?' }, class: "btn btn-danger"%>
+    </div>
+  </div>
+</div>
